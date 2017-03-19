@@ -56,7 +56,7 @@ public class PackMan extends GameObject implements IgameObject {
       this.health--;
     }else{
       System.out.println("konec");
-      game.Stop();
+      game.Lost();
     }
   }
   

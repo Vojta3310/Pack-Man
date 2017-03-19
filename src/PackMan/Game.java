@@ -5,9 +5,13 @@
  */
 package PackMan;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -31,6 +35,7 @@ public class Game {
   private boolean MRight=false; 
   
   private Font Font;
+  private int level=1;
   
   public Game(){
     String tfName = "/Minecraftia-Regular.ttf";
@@ -44,7 +49,24 @@ public class Game {
     }
   }
   
-  public void Start(String level){
+  public void Win(){
+    stav=GameStat.Win;
+  }
+
+  public void Lost(){
+    stav=GameStat.Lost;
+  }
+  
+  public void Start(int level){
+    stav=GameStat.loading;
+    PUp=false;
+    PDown=false;
+    PLeft=false;
+    PRight=false;
+    MUp=false;
+    MDown=false;
+    MLeft=false;
+    MRight=false; 
     mapa=new World(this);
     mapa.load("/home/vojta3310/NetBeansProjects/soutěž/src/Maps/mapa"+level+".map");
        // mapa.load("/home/bleha/mapa"+level+".map");
@@ -81,9 +103,22 @@ public class Game {
       }
     }
     if(evt.getExtendedKeyCode()==KeyEvent.VK_SPACE){
-        this.Pause();
+      switch (stav) {
+        case Lost :{
+            stav=GameStat.loading;  
+            this.Start(1);
+          }
+        break;
+        case Win :{
+            stav=GameStat.loading;
+            level++;  
+            this.Start(level);
+          }   
+        break;
+        default: this.Pause();
+      }
     }
-  }
+  } 
   
   public void UpEvent(java.awt.event.KeyEvent evt){
     if(this.isRunning()){
@@ -117,6 +152,7 @@ public class Game {
   }
   
   public void update(){
+    if (mapa.isWon()&&(stav!=GameStat.loading)) stav=GameStat.Win;
     if (this.isRunning()){
       if (PRight) mapa.getPackman().moveRight();
       if (PLeft) mapa.getPackman().moveLeft();
@@ -154,6 +190,88 @@ public class Game {
   }
   
   public void paint(java.awt.Canvas canvas){
+    if (stav==GameStat.loading) return;
     if (this.isRunning()) mapa.paint(canvas);
+    if (stav==GameStat.Paused) {
+      int H=180;
+      int W=400;
+      BufferedImage a=new BufferedImage(W, H,BufferedImage.TYPE_4BYTE_ABGR);   
+      Graphics g=a.getGraphics();
+      g.setColor(Color.black);
+      g.fillRect(0, 0, W, H);
+      g.setColor(Color.red);
+      g.drawRect(5, 5, W-11, H-11);
+      g.drawRect(6, 6, W-13, H-13);
+      g.drawRect(7, 7, W-15, H-15);
+      g.drawRect(8, 8, W-17, H-17);
+      g.setColor(Color.YELLOW);
+      Font font = this.getFont().deriveFont((float) 50);
+      g.setFont(font);
+      FontMetrics fm = g.getFontMetrics();
+      String t="Pause";
+      g.drawString(t, (W-fm.stringWidth(t))/2,110);
+      font = this.getFont().deriveFont((float) 20);
+      g.setFont(font);
+      g.setColor(Color.white);
+      fm = g.getFontMetrics();
+      t="Press space to continue!";
+      g.drawString(t, (W-fm.stringWidth(t))/2,150); 
+      mapa.paint(canvas);
+      canvas.getGraphics().drawImage(a,(canvas.getWidth()-W)/2, (canvas.getHeight()-H)/2, W, H,null);
+    }
+    if (stav==GameStat.Lost) {
+      int H=180;
+      int W=400;
+      BufferedImage a=new BufferedImage(W, H,BufferedImage.TYPE_4BYTE_ABGR);   
+      Graphics g=a.getGraphics();
+      g.setColor(Color.black);
+      g.fillRect(0, 0, W, H);
+      g.setColor(Color.red);
+      g.drawRect(5, 5, W-11, H-11);
+      g.drawRect(6, 6, W-13, H-13);
+      g.drawRect(7, 7, W-15, H-15);
+      g.drawRect(8, 8, W-17, H-17);
+      g.setColor(Color.YELLOW);
+      Font font = this.getFont().deriveFont((float) 50);
+      g.setFont(font);
+      FontMetrics fm = g.getFontMetrics();
+      String t="You Lost";
+      g.drawString(t, (W-fm.stringWidth(t))/2,110);
+      font = this.getFont().deriveFont((float) 20);
+      g.setFont(font);
+      g.setColor(Color.white);
+      fm = g.getFontMetrics();
+      t="Press space to continue!";
+      g.drawString(t, (W-fm.stringWidth(t))/2,150); 
+      mapa.paint(canvas);
+      canvas.getGraphics().drawImage(a,(canvas.getWidth()-W)/2, (canvas.getHeight()-H)/2, W, H,null);
+    }
+    if (stav==GameStat.Win) {
+      int H=180;
+      int W=400;
+      BufferedImage a=new BufferedImage(W, H,BufferedImage.TYPE_4BYTE_ABGR);   
+      Graphics g=a.getGraphics();
+      g.setColor(Color.black);
+      g.fillRect(0, 0, W, H);
+      g.setColor(Color.red);
+      g.drawRect(5, 5, W-11, H-11);
+      g.drawRect(6, 6, W-13, H-13);
+      g.drawRect(7, 7, W-15, H-15);
+      g.drawRect(8, 8, W-17, H-17);
+      g.setColor(Color.YELLOW);
+      Font font = this.getFont().deriveFont((float) 50);
+      g.setFont(font);
+      FontMetrics fm = g.getFontMetrics();
+      String t="You WON!!";
+      g.drawString(t, (W-fm.stringWidth(t))/2,110);
+      font = this.getFont().deriveFont((float) 20);
+      g.setFont(font);
+      g.setColor(Color.white);
+      fm = g.getFontMetrics();
+      t="Press space to continue!";
+      g.drawString(t, (W-fm.stringWidth(t))/2,150); 
+      mapa.paint(canvas);
+      canvas.getGraphics().drawImage(a,(canvas.getWidth()-W)/2, (canvas.getHeight()-H)/2, W, H,null);
+    }
   }
 }

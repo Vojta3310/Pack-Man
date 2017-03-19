@@ -20,7 +20,7 @@ public class GameGUI extends javax.swing.JFrame {
   public GameGUI(Game game) {
     initComponents();
     hra=game;
-    hra.Start("6");
+    hra.Start(1);
     mapa=game.getMapa();
     Timer timer=new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {

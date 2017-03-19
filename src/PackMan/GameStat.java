@@ -12,6 +12,6 @@ package PackMan;
  */
 public enum GameStat{
    
-   Running,Paused,Finished,NonStarted;
+   Running,Paused,Finished,NonStarted, Lost, Win, loading;
 
 }

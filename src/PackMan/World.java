@@ -95,6 +95,15 @@ public class World {
     }
     return null;
   }
+  
+  public boolean isWon(){
+    for(IgameObject object : Objects) {
+      if(object.getTyp()==ObjectType.Jidlo) {
+          return false;
+      }
+    }
+    return true;
+  }
 
   public int getSizeX() {
     return sizeX;
@@ -122,6 +131,7 @@ public class World {
     for(IgameObject object : Objects) {
       g.drawImage(object.getImage(), object.getX()*imW, object.getY()*imH, imW, imH, null);
     }
+    g.drawImage(getMonster().getImage(), getMonster().getX()*imW, getMonster().getY()*imH, imW, imH, null);
     g.setColor(Color.red);
     g.fillRect(0, imH*(sizeY+1), canvas.getWidth(), 2);
     g.setColor(Color.white);  
