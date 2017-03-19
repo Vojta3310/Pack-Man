@@ -71,11 +71,17 @@ public class PackMan extends GameObject implements IgameObject {
       image=new BufferedImage(obrazek.getWidth(null), obrazek.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
       image.getGraphics().drawImage(obrazek,0,0,image.getWidth(), image.getHeight(),null);
     }
-    
+
     double rotationRequired = Math.toRadians (lastdir);
     double locationX = image.getWidth() / 2;
     double locationY = image.getHeight() / 2;
-    AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+    AffineTransform tx;
+    if (lastdir==180){
+      tx = AffineTransform.getScaleInstance(-1, 1);
+      tx.translate(-image.getWidth(null), 0);
+    }else{
+      tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+    }
     AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
     return op.filter(image, null);
   }

@@ -15,7 +15,7 @@ public class Main {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    System.out.println("Aplication started!");
+    System.out.println("Aplication started!");    
     Game hra=new Game();
     
     

@@ -26,6 +26,7 @@ public class GameGUI extends javax.swing.JFrame {
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
+        hra.update();
         hra.paint(canvas1);
       }
     }, 100, 100);
@@ -46,6 +47,9 @@ public class GameGUI extends javax.swing.JFrame {
     addKeyListener(new java.awt.event.KeyAdapter() {
       public void keyPressed(java.awt.event.KeyEvent evt) {
         formKeyPressed(evt);
+      }
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        formKeyReleased(evt);
       }
     });
 
@@ -73,40 +77,14 @@ public class GameGUI extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-    if(hra.isRunning()){
-      switch (evt.getExtendedKeyCode()) {
-        case 37 :
-        mapa.getPackman().moveRight();
-        break;
-        case 39:
-        mapa.getPackman().moveLeft();
-        break;
-        case 38:
-        mapa.getPackman().moveUp();
-        break;
-        case 40:
-        mapa.getPackman().moveDown();
-        break;
-        case 65 :
-        mapa.getMonster().moveRight();
-        break;
-        case 68:
-        mapa.getMonster().moveLeft();
-        break;
-        case 87:
-        mapa.getMonster().moveUp();
-        break;
-        case 83:
-        mapa.getMonster().moveDown();
-        break;
-      }
-    }
-    if(evt.getExtendedKeyCode()==KeyEvent.VK_SPACE){
-        hra.Pause();
-    }
+    hra.PressEvent(evt);
 
-    hra.paint(canvas1);
+    //hra.paint(canvas1);
   }//GEN-LAST:event_formKeyPressed
+
+  private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+    hra.UpEvent(evt);
+  }//GEN-LAST:event_formKeyReleased
 
 
 

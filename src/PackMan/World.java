@@ -124,8 +124,9 @@ public class World {
     }
     g.setColor(Color.red);
     g.fillRect(0, imH*(sizeY+1), canvas.getWidth(), 2);
-    g.setColor(Color.white);
-    g.setFont(new Font("Minecraftia", Font.PLAIN, imH/2));
+    g.setColor(Color.white);  
+    Font font = game.getFont().deriveFont((float)imH/2 );
+    g.setFont(font);
     g.drawString("Score: "+this.getPackman().getScore(), 5, imH*(sizeY+2));
     for (int i = 0; i < this.getPackman().getHealth(); i++) {
       g.drawImage(this.getPackman().getImage(), imW*(sizeX+1)-(i+1)*(imW-4), imH*(sizeY+1)+4, imW-6, imH-6, null);
