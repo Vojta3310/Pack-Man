@@ -55,6 +55,7 @@ public class Game {
 
   public void Lost(){
     stav=GameStat.Lost;
+    level=1;
   }
   
   public void Start(int level){
@@ -145,7 +146,7 @@ public class Game {
         MUp=false;
         break;
         case 83:
-        MDown=false;
+        MDown=false;  
         break;
       }
     }

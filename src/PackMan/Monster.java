@@ -40,9 +40,13 @@ public class Monster extends GameObject implements IgameObject {
     }else{
       IgameObject obj=map.getObject(x, y);
       if(obj.getTyp()==ObjectType.PackMan){
-        map.getPackman().hit();
-        this.x=x;
-        this.y=y;
+        if (map.getPackman().isSuper()){
+          this.hit();
+        }else{
+          map.getPackman().hit();
+          this.x=x;
+          this.y=y;
+        }
       }else if (obj.getTyp()!=ObjectType.Zed){
         this.x=x;
         this.y=y;
